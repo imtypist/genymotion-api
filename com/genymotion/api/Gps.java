@@ -14,6 +14,43 @@ public class Gps
         this.mLocationLock = new Object();
         this.genyd = genyd;
     }
+
+    public Gps setLocation(final double latitude, final double longitude, final double altitude, final float accuracy, final float bearing){
+        GenymotionManager.checkApi("2.2", "com.genymotion.api.Gps.setAccuracy(float)");
+        if (latitude < -90.0 || latitude > 90.0) {
+            throw new GenymotionException("Invalid value. The expected range is 0 to 90");
+        }
+        if (longitude < -180.0 || longitude > 180.0) {
+            throw new GenymotionException("Invalid value. The expected range is -180 to 180");
+        }
+        if (altitude < -10000.0 || altitude > 10000.0) {
+            throw new GenymotionException("Invalid Value. The expected range is -1000 to 1000");
+        }
+        if (accuracy < 0.0f || accuracy > 200.0f) {
+            throw new GenymotionException("Invalid value. The expected range is 0 to 200");
+        }
+        if (bearing < 0.0f || bearing >= 360.0f) {
+            throw new GenymotionException("Invalid value. The expected range is 0 to 360");
+        }
+        try {
+            this.genyd.setGpsAccuracy(accuracy);
+            this.genyd.setGpsAltitude(altitude);
+            this.genyd.setGpsBearing(bearing);
+            this.genyd.setGpsLatitude(latitude);
+            this.genyd.setGpsLongitude(longitude);
+        }
+        catch (RemoteException e) {
+            throw new GenymotionException("Unable to communicate with Genymotion", (Throwable)e);
+        }
+        final Location targetLocation = new Location("DummyProvider");
+        targetLocation.setAccuracy(accuracy);
+        targetLocation.setAltitude(altitude);
+        targetLocation.setBearing(bearing);
+        targetLocation.setLatitude(latitude);
+        targetLocation.setLongitude(longitude);
+        this.waitForTargetLocation(targetLocation);
+        return this;
+    }
     
     public Gps setAccuracy(final float accuracy) {
         GenymotionManager.checkApi("2.2", "com.genymotion.api.Gps.setAccuracy(float)");
