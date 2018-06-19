@@ -1,5 +1,11 @@
 # genymotion-api
 
+### Update
+
+官方已经更新了新的api jar包，[issue#10](https://github.com/Genymobile/genymotion-binocle/issues/10)的问题已经解决了，赞一个！最新版`1.1.0`下载地址[genymotion-api-1.1.0](http://api.genymotion.com/repositories/releases/com/genymotion/api/genymotion-api/1.1.0/)
+
+----
+
 `genymotion-api-1.0.4.jar`的反编译java代码，API参照官方提供的API文档[Genymotion Java API](https://cloud.genymotion.com/static/external/javadoc/index.html)。
 
 ### Feature
